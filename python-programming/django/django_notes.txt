@@ -1,0 +1,40 @@
+Django install log for the wiki app, an example by Siddhi ( http://showmedo.com/videos/video?name=1100000&fromSeriesID=110 ). This ( http://www.webmonkey.com/tutorial/Get_Started_With_Django ) is also a great guide.
+
+After Django is installed, you need to create a project. A project can contain multiple applications. Inside of the directory in which you wish to house your project (somewhere in your home folder is fine), run:
+
+django-admin startproject PROJECTNAME
+
+This will create a child directory of name PROJECTNAME containing essential skeleton files for your project. 
+
+Then inside of the PROJECTNAME folder, run:
+
+./manage.py startapp APPNAME
+
+This will initialize an application of name APPNAME. It also creates a child directory of name APPNAME. Inside of APPNAME, there are now skeleton files for the APPNAME application, to define its views and models.
+
+Go up to PROJECTNAME and edit settings.py. This file defines the database and other essential project information. You minimally need to define your database and add APPNAME to the list of installed apps. To quickly get things running, put "sqlite3" for DATABASE_ENGINE, and "APPNAME.db" for DATABASE_NAME. Then at the bottom of the file, add to INSTALLED_APPS: "PROJECTNAME.APPNAME". Also add "'django.contrib.admin',", to provide the Django admin tool.
+
+Now go into APPNAME and edit models.py. In here you will define the basic models for your application. Database tables will be created for you based on these. To do this, after your models are defined, go up to PROJECTNAME and run:
+
+./manage.py syncdb
+
+This will create the needed tables to manifest your defined models.
+
+Now you can try out your new application by running:
+
+./manage.py runserver
+
+This will start up Django's built in server, which you can view at http://127.0.0.1:8000 in a browser. Now to define URLs available to access your application.
+
+Edit PROJECTNAME/urls.py. Within urlpatterns is where you define patterns for URLs, as well as what functions these map to. Minimally include:
+
+from django.contrib import admin
+admin.autodiscover()
+
+and within urlpatterns:
+
+(r'^admin/(.*)', admin.site.root),
+
+These will allow you to hit http://127.0.0.1:8000/admin and get to the Django admin tool.
+
+After defining the URLs, you will need to define the views that will be shown at the URLs defined. This is done in APPNAME/views.py.

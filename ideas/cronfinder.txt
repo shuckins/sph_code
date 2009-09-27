@@ -1,0 +1,44 @@
+Samuel Huckins
+Sun Jul 12 08:23:01 EDT 2009
+
+-----------------------------------------------------------------------
+
+SUMMARY: This will outline some ideas I've had for a new utility: cronfinder.
+It will be able to collect cron information from various system types and
+redisplay this information in useful ways. It should be published to PyPI and
+otherwise shared!
+
+PROBLEM: Cron directory files and crontab files across various *nix
+distributions can utilize different formats. In all cases, these formats are
+not exactly intuitive to read. And even for those that can read them well, it's
+not a simple task to view all the current cron job information on a given
+system. It's not unreasonable for an administrator to want to view every user
+job that will ever run automatically on a system, and yet to do this currently
+you'd need to check every user's crontab file, every file in every cron.d
+directory, find out what wasn't commented out, and then order the result. This
+sounds like something readily scriptable!
+
+FEATURES:
+ * Find and list all users' crontab files, filtering out comments, ordering by
+date of scheduled execution Find and list all cron.d files, filtering out comments, 
+ordering by date of scheduled execution
+ * Pretty, human-readable output switch
+ * Highly parsable, more machine-readable output switch
+ * Structured to allow use of functions when imported, for more general cron-related tasks.
+
+-----------------------------------------------------------------------
+STEPS AND COMPONENTS:
+
+ * System check
+         * Verify valid OS
+         * Valid OS list mapped to pertinent commands and locations
+ * CronGatherer
+         * Collect crontabs
+         * Collect cron.d files
+ * CronParser
+         * Filter out comments
+         * Map commands collected to locations, preserve order?
+         * Determine intervals, friendly times of jobs to be run
+ * Outputter
+         * Print parseable format
+         * Print pretty format

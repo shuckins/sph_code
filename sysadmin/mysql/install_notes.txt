@@ -1,0 +1,104 @@
+Performed: Sun Mar 15 01:17:07 EDT 2009
+Author: Samuel Huckins
+Purpose: The following will describe steps followed to get a general purpose
+(read: ready to be customized to your needs :-)) and secure MySQL server up and
+running on the system detailed below (most Linux systems, here specifically:
+Ubuntu 8.10).
+
+Resources:
+ * Guide to source installation:
+ http://dev.mysql.com/doc/refman/5.1/en/installing-source.html
+ * Using MOCA:
+ http://mysql-dba-journey.blogspot.com/2007/10/mysql-optimal-configuration.html
+ http://mysql-dba-journey.blogspot.com/2007/12/mysql-architecture-using-moca.html
+ * Security issues:
+ http://dev.mysql.com/doc/mysql-security-excerpt/5.1/en/security.html
+ http://dev.mysql.com/doc/refman/5.0/en/mysql-secure-installation.html
+ * On selection of directories:
+ http://www.pathname.com/fhs/pub/fhs-2.3.html
+ * Installation layouts:
+ http://dev.mysql.com/doc/refman/5.1/en/installation-layouts.html
+
+-----------------------------------------------------------
+Installing on:
+	OS: Linux, Ubuntu 8.10 \n \l
+	Kernel: 2.6.27-11-generic
+	Hardware:
+	 * CPU(s):
+	Intel(R) Pentium(R) 4 CPU 3.40GHz
+	 * Total RAM: 2023 MB
+	 * HDD info:
+	Disk /dev/sda: 300.0 GB, 300069052416 bytes
+	Disk /dev/sdb: 163.9 GB, 163928604672 bytes
+
+MySQL's current GA is 5.1. Despite claims to the contrary, this doesn't seem to be available in the current Ubuntu channels. So we will be installing from source.
+
+-----------------------------------------------------------
+
+To hold the MySQL software itself: 
+
+	sudo mkdir -p /usr/local/mysql
+
+Getting the package:
+
+	cd /tmp
+	wget -O mysql-5.1.32.tar.gz http://dev.mysql.com/get/Downloads/MySQL-5.1/mysql-5.1.32.tar.gz/from/http://mysql.mirrors.pair.com/
+
+To hold the data:
+
+	sudo mkdir -p /var/lib/mysql
+
+To hold the logs:
+
+	sudo mkdir -p /var/log/mysql
+
+Now down to business. First create a user and group for MySQL. The user needs no home and no one should be able to login as it:
+
+	sudo groupadd mysql
+	sudo useradd mysql -c "MySQL Server" -d /dev/null -g mysql -s /sbin/nologin
+
+Then unpack the source:
+
+	cd /tmp
+	sudo tar -xzvf /tmp/mysql-5.1.32.tar.gz
+
+Installing build deps:
+
+	sudo apt-get install build-essential autoconf automake libtool bison byacc libncurses5-dev
+
+Now for the install. Start knitting a sweater, as this will take a while:
+
+	cd /tmp/mysql-5.1.32
+	sudo ./configure --prefix=/usr/local/mysql/mysql5.1 --datadir=/var/lib/mysql
+	sudo make 
+	sudo make install
+
+If this all completed, you should have an installed and tested copy of MySQL. Now we need a config file. First make a copy for safe-keeping, then generate a safer version:
+
+	sudo cp /etc/my.cnf /etc/my.cnf-orig
+	/usr/local/mysql/mysql5.1/bin/mysql_secure_installation --defaults=/etc/my.cnf
+
+This script will ask a series of questions to allow a more secure default setup.
+
+Now direct MySQL to setup its initial DBs:
+
+	/usr/local/mysql/mysql5.1/bin/mysql_install_db --user=mysql --datadir=/var/lib/mysql --basedir=/usr/local/mysql/mysql5.1
+
+Since we don't want the DB server processes running as root, set the proper user and group on all associated directories:
+
+	sudo chown -R mysql:mysql /usr/local/mysql
+	sudo chown -R mysql:mysql /var/lib/mysql
+	sudo chown -R mysql:mysql /var/log/mysql
+	sudo chown mysql:mysql /etc/my.cnf
+
+Lastly start the server:
+
+	/usr/local/mysql/mysql5.1/bin/mysqld_safe --user=mysql &
+
+-----------------------------------------------------------
+If you want to test things out with a canned database, check out world and Sakila at the MySQL site (http://dev.mysql.com/doc/#sampledb).
+
+Some recommended entries for my.cnf:
+
+[mysqld]
+sql-mode=TRADITIONAL

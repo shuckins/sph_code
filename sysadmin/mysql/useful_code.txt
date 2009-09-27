@@ -1,0 +1,7 @@
+To dump from MySQL to proper CSV format:
+
+mysql -u USER -pPASS DB -B -e "QUERY;" | sed 's/\t/","/g;s/^/"/;s/$/"/;s/\n//g' > OUTPUT.csv
+
+This page provides an explanation: http://tlug.dnho.net/?q=node/209  It works!
+
+-------------------------------------------------------------------------------

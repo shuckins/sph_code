@@ -1,0 +1,6 @@
+Useful sites for find_os research:
+
+ * http://www.python.org/doc/2.4/lib/node349.html
+ * http://www.doughellmann.com/PyMOTW/platform/
+ * http://www.gossamer-threads.com/lists/python/python/613329
+ * http://www.velocityreviews.com/forums/t363458-p2-sysplatform-documentation.html

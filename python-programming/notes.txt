@@ -1,0 +1,85 @@
+Handy Python things:
+
+ * Quickly creating lists:
+ >>> my_list = 'i am the very model of a modern major general'.split()
+ >>> my_list
+['i', 'am', 'the', 'very', 'model', 'of', 'a', 'modern', 'major', 'general']
+#------------------------------------------------------------------------------
+ * Quickly creating dictionaries:
+ Use my_list from above, then to make some keys:
+ >>> g = []
+ >>> for i in range(len(my_list)): g.append(i)
+ >>> my_dict = dict(zip(g, my_list))
+ >>> my_dict
+ {0: 'i', 1: 'am', 2: 'the', 3: 'very', 4: 'model', 5: 'of', 6: 'a', 7: 'modern', 8: 'major', 9: 'general'}
+#------------------------------------------------------------------------------
+ * An even shorter way to make a dictionary:
+ >>> my_dict = dict(enumerate('i am the very model of a modern major general'.split()))
+ >>> my_dict
+ {0: 'i', 1: 'am', 2: 'the', 3: 'very', 4: 'model', 5: 'of', 6: 'a', 7: 'modern', 8: 'major', 9: 'general'}
+#------------------------------------------------------------------------------
+ * Getting multiple lines of user input:
+user_input = []
+entry = raw_input("Enter text, 'done' on its own line to quit: \n")
+while entry != "done":
+    user_input.append(entry)
+    entry = raw_input("")
+user_input = '\n'.join(user_input)
+print user_input
+#------------------------------------------------------------------------------
+ * Datestamp of file:
+ import stat
+ import os
+ import time
+ time_fmt = "%Y-%m-%d_%X"
+ stat_info = os.lstat(myfile)
+ ts = stat_info.st_mtime
+ time.strftime(time_fmt, time.gmtime(ts))
+ '2009-01-19_19:02:29'
+#------------------------------------------------------------------------------
+ * Last instance of passed weekday:
+import datetime
+import calendar
+def get_last_weekday(target):
+    """
+    Finds the date of the last instance of the passed weekday relative
+    to today.
+    """
+    today = datetime.date.today()
+    this_dow = today.weekday()
+    target = target.upper()
+    target = eval('calendar.%s' % target)
+    if this_dow == target:
+        delta_to_target = 7
+    else:
+        delta_to_target = (this_dow - target) % 7
+    last_target = today - datetime.timedelta(days=delta_to_target)
+    return last_target.strftime('%Y-%m-%d')
+#------------------------------------------------------------------------------
+ * Directory script being called lives in:
+import sys
+sys.path[0]
+#------------------------------------------------------------------------------
+ * Directory script is being called from:
+import os
+os.getcwd()
+#------------------------------------------------------------------------------
+ * Hostname of local box:
+from socket import gethostname; print gethostname() 
+#------------------------------------------------------------------------------
+ * Using callbacks with optparse:
+# Basic reminder: callback functions MUST set parser.values.OPTNAME to the value passed to the callback or the associated option will end up being None. Example:
+from optparse import OptionParser
+from optparse import OptionValueError
+
+def check_even(option, opt, value, parser):
+    if value % 2 != 0:
+        raise OptionValueError("%s is not even." % value)
+    parser.values.num = value
+
+parser = OptionParser()
+parser.add_option("-n", "--number", action="callback", type="int", callback=check_even, dest="num")
+
+(options, args) = parser.parse_args(["-f yay", "-n 34"])
+print options
+#------------------------------------------------------------------------------

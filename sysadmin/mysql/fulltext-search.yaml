@@ -1,0 +1,11 @@
+connection:
+    user: 'root'
+    password: 'test'
+    host: 'localhost'
+    socket: '/var/run/mysqld/mysqld.sock'
+    database: 'test'
+    port: '3306'
+
+queries:
+    search_terms: ''
+    search_against: ''
