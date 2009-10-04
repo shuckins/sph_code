@@ -24,3 +24,6 @@ end
 
 == HTML ==
  * For parsing: hpricot
+
+== CSV ==
+ * For writing to and reading from CSV files: http://fastercsv.rubyforge.org/classes/FasterCSV.html
