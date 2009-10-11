@@ -12,7 +12,7 @@ import subprocess
 
 # All the apps we want to install: 
 apps_to_install = ['avidemux', 'conky', 'dia', 'flashplugin-nonfree', 
-                   'gscrot', 'guake', 'inkscape', 
+                   'gcolor2', 'gscrot', 'guake', 'inkscape', 
                    'launchy', 'mozilla-mplayer', 'screenlets', 
                    'synergy', 'ttf-droid', 'wireshark', 'xresprobe', 
                    'zenmap']
