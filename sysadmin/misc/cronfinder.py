@@ -23,7 +23,7 @@ import logging
 script_name = __file__.split("/")[-1]
 # Setup logging
 logger = logging.getLogger(script_name)
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG)
 # Use file for standard logging
 #logfilename = "/var/log/%s.log" % script_name
 #filelog = logging.FileHandler(logfilename, 'a')
@@ -50,11 +50,27 @@ def check_system():
     Checks the local operating system to verify script can complete.
     """
     uname = os.uname()
-    print uname
-    # Verify system is Linux or Darwin:
-    # Verify crontab files can be found:
-    # Verify cron.d files can be found:
-    pass
+    cur_os = uname[0].lower()
+    allowed_os = ["linux", "darwin"]
+    # Verify system is allowed:
+    if cur_os not in allowed_os:
+        raise IncompatibleSystem
+
+    # Verify we can find either crontab file or a cron directory
+    has_cron = 0
+    # crontab files
+    if os.path.exists("/etc/crontab"):
+        has_cron += 1
+    # cron.d files
+    if os.path.exists("/etc/cron.d"):
+        has_cron += 1
+    
+    if not has_cron:
+        raise NoCron
+
+class CheckFailure(Exception): pass
+class IncompatibleSystem(CheckFailure): pass
+class NoCron(CheckFailure): pass
 
 class CronGatherer(object):
     """
@@ -66,7 +82,21 @@ class CronGatherer(object):
         """
         pass
 
-class Outputter(object):
+    def collect_crontab(self):
+        """
+        Collects cronjobs found in crontab files.
+        """
+        # Get all users
+        # Pull crontab for each
+        # Extract uncommented lines, create association of location, user, and
+        # command
+        pass
+
+    def collect_crond(self):
+        """Collects cronjobs found in cron.d directories."""
+        pass
+
+class Outputter(object, cronjobs):
     """
     Formats and prints output based on options passed.
     """
@@ -128,10 +158,12 @@ def main():
         logger.setLevel(logging.ERROR)
     logger.debug("Starting %s." % script_name)
     # Verify system meets requirements:
-    check = check_system()
-    if not check:
-        logger.error("System does not meet requirements.")
-        sys.exit(-1)
+    try:
+        check_system()
+    except CheckFailure, e:
+        logger.critical("System does not meet minimum reqs: %s" % e)
+        sys.exit(1)
+    logger.debug("System meets minimum reqs.")
     # Gather cronjob information:
     cronjobs = CronGatherer()
     # Output results:
