@@ -83,3 +83,6 @@ parser.add_option("-n", "--number", action="callback", type="int", callback=chec
 (options, args) = parser.parse_args(["-f yay", "-n 34"])
 print options
 #------------------------------------------------------------------------------
+ * Current date
+import datetime
+datetime.date.isoformat(datetime.date.today())
