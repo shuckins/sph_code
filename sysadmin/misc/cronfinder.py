@@ -56,6 +56,9 @@ def check_system():
     if cur_os not in allowed_os:
         raise IncompatibleSystem
 
+    # TODO: Should we also check to see if the distro is one of: CentOS, RedHat,
+    # Debian, Ubuntu, SUSE, Fedora?
+    #
     # Verify we can find either crontab file or a cron directory
     has_cron = 0
     # crontab files
@@ -75,6 +78,8 @@ class NoCron(CheckFailure): pass
 class CronGatherer(object):
     """
     Collects crontab and cron.d contents based on OS information passed.
+
+    Proposed format: [{cron_type, command, period, owner}]
     """
 
     def __init__(self):
@@ -127,6 +132,15 @@ class Outputter(object, cronjobs):
         mail_server.sendmail(send_from, send_to, message)
         mail_server.quit()
         logger.debug("Sent.")
+
+    def html(self):
+        pass
+
+    def csv(self):
+        pass
+
+    def stdout(self):
+        pass
 
 #-----------------------------------------------------------------------------
 
