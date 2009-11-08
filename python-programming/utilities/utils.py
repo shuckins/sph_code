@@ -21,20 +21,20 @@ def obinfo(obj):
 
     From http://www.ibm.com/developerworks/library/l-pyint.html
     """
-    if hasattr(item, '__name__'):
-        print "NAME:    ", item.__name__
-    if hasattr(item, '__class__'):
-        print "CLASS:   ", item.__class__.__name__
-    print "ID:      ", id(item)
-    print "TYPE:    ", type(item)
-    print "VALUE:   ", repr(item)
+    if hasattr(obj, '__name__'):
+        print "NAME:    ", obj.__name__
+    if hasattr(obj, '__class__'):
+        print "CLASS:   ", obj.__class__.__name__
+    print "ID:      ", id(obj)
+    print "TYPE:    ", type(obj)
+    print "VALUE:   ", repr(obj)
     print "CALLABLE:",
-    if callable(item):
+    if callable(obj):
         print "Yes"
     else:
         print "No"
-    if hasattr(item, '__doc__'):
-        doc = getattr(item, '__doc__')
+    if hasattr(obj, '__doc__'):
+        doc = getattr(obj, '__doc__')
         doc = doc.strip()   # Remove leading/trailing whitespace.
         firstline = doc.split('\n')[0]
         print "DOC:     ", firstline
