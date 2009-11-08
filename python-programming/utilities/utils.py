@@ -35,8 +35,8 @@ def obinfo(obj):
         print "No"
     if hasattr(obj, '__doc__'):
         doc = getattr(obj, '__doc__')
-        doc = doc.strip()   # Remove leading/trailing whitespace.
-        firstline = doc.split('\n')[0]
-        print "DOC:     ", firstline
+        doc = doc.strip()
+        topfive = doc.split('\n')[0:4]
+        print "DOC:     ", "\n".join(topfive)
     else:
         print "No docstring. Yell at the author."
