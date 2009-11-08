@@ -15,9 +15,9 @@ def mf(obj, term):
     else:
         print "No matches!"
 
-def minfo(item):
+def obinfo(obj):
     """
-    Print useful information about item.
+    Print useful information about object.
 
     From http://www.ibm.com/developerworks/library/l-pyint.html
     """
