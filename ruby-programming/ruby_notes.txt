@@ -14,16 +14,17 @@ end
 
 
 = Tasks =
-== XML ==
+== XML and HTML ==
  * For building: Builder (RubyGem; http://builder.rubyforge.org/)
- * For parsing and traversing: REXML (stdlib; http://www.germane-software.com/software/rexml/) 
+ * For parsing and traversing XML: REXML (stdlib; http://www.germane-software.com/software/rexml/) 
+ * For parsing HTML and XML: nokogiri (http://wiki.github.com/tenderlove/nokogiri)
+ * For unescaping:
+require 'cgi'
+unescaped = CGI::unescapeHTML(HTML_OR_XML)
 
 == Dates and times ==
  * Datestamp: Date.today.to_s
  * Datetime stamp: Time.now.strftime("%Y%m%d_%H%M%S")
-
-== HTML ==
- * For parsing: hpricot
 
 == CSV ==
  * For writing to and reading from CSV files: http://fastercsv.rubyforge.org/classes/FasterCSV.html
