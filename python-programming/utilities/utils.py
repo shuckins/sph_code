@@ -2,7 +2,8 @@
 
 def mf(obj, term):
     """
-    Searches through the methods defined for obj, looks for those containing the term passed.
+    Searches through the methods defined for obj, 
+    looks for those containing the term passed.
     Returns all matches or a warning of none found.
     """
     meths = dir(obj)

@@ -7,6 +7,16 @@
 """
 Searches through all columns in all tables of the DB specified for the string 
 specified, prints the results.
+
+NOTE! This is no longer necessary if you are running MySQL version 5 or 
+higher. With the current versions information_schema 
+(http://dev.mysql.com/doc/refman/5.0/en/information-schema.html) 
+is provided as a way to search for column names:
+
+    select column_name from information_schema
+    where table_schema = "MYDB"
+    and column_name like "%foo%";
+
 """
 # For exiting app
 import sys
