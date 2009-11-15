@@ -48,6 +48,7 @@ TABLE_NAME = "%s" and TABLE_SCHEMA = "%s" """ % (view, db)
                     " order ":  "\norder "}
     for (f, r) in find_replace.items():
         view_syntax = view_syntax.replace(f, r)
+    view_syntax = view_syntax + ";\n"
     return view_syntax
 
 def write_view(view, output_file):
