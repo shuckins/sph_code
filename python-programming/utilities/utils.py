@@ -1,20 +1,23 @@
 #!/usr/bin/env python
+"""
+Assorted utilities.
+
+Initial versions improved by Jason R. Coombs:
+https://svn.jaraco.com/jaraco/python/jaraco.util/jaraco/lang/python.py
+"""
 
 def mf(obj, term):
     """
     Searches through the methods defined for obj, 
-    looks for those containing the term passed.
-    Returns all matches or a warning of none found.
+    looks for those containing the term passed. 
+	Prints all matches or 'No matches' if none found.
+
+    >>> mf(set, "diff")
+    ['difference', 'difference_update', 'symmetric_difference', 'symmetric_difference_update']
     """
-    meths = dir(obj)
-    match_meths = []
-    for meth in meths:
-        if meth.rfind(term) != -1:
-            match_meths.append(meth)
-    if match_meths:
-        print match_meths
-    else:
-        print "No matches!"
+    methods = dir(obj)
+    term = term.lower()
+	result = [m for m in methods if term in m.lower()] or 'No matches'
 
 def obinfo(obj):
     """
@@ -26,14 +29,10 @@ def obinfo(obj):
         print "NAME:    ", obj.__name__
     if hasattr(obj, '__class__'):
         print "CLASS:   ", obj.__class__.__name__
-    print "ID:      ", id(obj)
-    print "TYPE:    ", type(obj)
-    print "VALUE:   ", repr(obj)
-    print "CALLABLE:",
-    if callable(obj):
-        print "Yes"
-    else:
-        print "No"
+    print("ID:      ", id(obj))
+    print("TYPE:    ", type(obj))
+    print("VALUE:   ", repr(obj))
+	print("CALLABLE:", ['No', 'Yes'][callable(obj)])
     if hasattr(obj, '__doc__'):
         doc = getattr(obj, '__doc__')
         doc = doc.strip()
