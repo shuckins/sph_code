@@ -17,7 +17,8 @@ def mf(obj, term):
     """
     methods = dir(obj)
     term = term.lower()
-	result = [m for m in methods if term in m.lower()] or 'No matches'
+    result = [m for m in methods if term in m.lower()] or 'No matches'
+    return result
 
 def obinfo(obj):
     """
@@ -32,7 +33,7 @@ def obinfo(obj):
     print("ID:      ", id(obj))
     print("TYPE:    ", type(obj))
     print("VALUE:   ", repr(obj))
-	print("CALLABLE:", ['No', 'Yes'][callable(obj)])
+    print("CALLABLE:", ['No', 'Yes'][callable(obj)])
     if hasattr(obj, '__doc__'):
         doc = getattr(obj, '__doc__')
         doc = doc.strip()
