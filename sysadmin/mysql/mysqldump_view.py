@@ -5,7 +5,7 @@ Dumps the create statement for MySQL VIEW_NAME in DATABASE, performs
 some text replacement to make it more readable, writes to a
 file VIEW_NAME.sql in current directory.
 
-USAGE: ./mysqldump_view DATABASE VIEW_NAME
+USAGE: ./mysqldump_view.py DATABASE VIEW_NAME
 
 Author: Samuel Huckins
 Date started: 2009-11-15
