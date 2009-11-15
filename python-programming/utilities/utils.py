@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 """
 Assorted utilities.
-
-Initial versions improved by Jason R. Coombs:
-https://svn.jaraco.com/jaraco/python/jaraco.util/jaraco/lang/python.py
 """
 
 def mf(obj, term):
@@ -11,6 +8,9 @@ def mf(obj, term):
     Searches through the methods defined for obj, 
     looks for those containing the term passed. 
 	Prints all matches or 'No matches' if none found.
+
+    Initial version improved by Jason R. Coombs:
+    https://svn.jaraco.com/jaraco/python/jaraco.util/jaraco/lang/python.py
 
     >>> mf(set, "diff")
     ['difference', 'difference_update', 'symmetric_difference', 'symmetric_difference_update']
@@ -25,6 +25,9 @@ def obinfo(obj):
     Print useful information about object.
 
     From http://www.ibm.com/developerworks/library/l-pyint.html
+
+    Initial version improved by Jason R. Coombs:
+    https://svn.jaraco.com/jaraco/python/jaraco.util/jaraco/lang/python.py
     """
     if hasattr(obj, '__name__'):
         print "NAME:    ", obj.__name__
