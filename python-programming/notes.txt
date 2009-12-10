@@ -89,3 +89,8 @@ datetime.date.isoformat(datetime.date.today())
  * Current datetime
 import time
 time.strftime("%Y-%m-%d_%H:%M:%S")
+#------------------------------------------------------------------------------
+ * Find site-packages directory
+from distutils.sysconfig import get_python_lib
+print get_python_lib()
+
