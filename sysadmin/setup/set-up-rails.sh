@@ -9,6 +9,15 @@
 #        AUTHOR:  Samuel Huckins, wormwood_3@yahoo.com
 #       CREATED:  12/13/2009 12:15:40 PM EST
 #===============================================================================
+echo -ne "\nThis script will attempt to set up Rails and necessary deps on an Ubuntu system. Continue? (y/n) "
+read -e CONT
+if [ "$CONT" == "y" ]; then
+    echo "Alright, let's go!"
+else
+    echo "Exiting."
+    exit
+fi
+
 # OS check
 # Make sure we have egrep
 EGREP_VER=`egrep --version | head -n 1`
@@ -25,7 +34,7 @@ fi
 DEB_OS=`egrep -i 'Ubuntu|Debian' /etc/issue`
 RH_OS=`egrep -i 'CentOS|Red Hat' /etc/issue`
 if [[ ${#DEB_OS} -gt 0 ]] ; then
-    echo "Suitable OS confirmed."
+    echo "---- Suitable OS confirmed."
 elif [[ ${#RH_OS} -gt 0 ]] ; then
     CUR_OS="redhat"
     echo "Not able to install on this OS."
@@ -38,12 +47,12 @@ fi
 
 
 # Ruby and friends
-echo "Installing Ruby and friends..."
+echo -e "\n---- Installing Ruby and friends...\n"
 sudo apt-get install ruby rdoc irb build-essential &&
 echo "Installed ruby (`ruby --version`), rdoc (`rdoc --version`), irb (`irb --version`), build-essential."
 
 # Rubygems
-echo "Installing rubygems..."
+echo -e "\n---- Installing rubygems...\n"
 cd /tmp
 # Check here to see if this is the latest:
 # http://rubyforge.org/frs/?group_id=126
@@ -53,18 +62,18 @@ cd rubygems-1.3.5/
 sudo ruby setup.rb
 # Without this 'gem' will either not work or will be something else:
 sudo ln -s /usr/bin/gem1.8 /usr/bin/gem
-echo "Installed gem `gem --version`."
+echo -e "\n ---- Installed gem `gem --version`.\n"
 
 # Rails
-echo "Installing rails..."
+echo -e "\n---- Installing rails...\n"
 sudo gem install rails &&
-echo "Installed rails `rails --version`."
+echo -e "\n---- Installed rails `rails --version`.\n"
 
 # To get sqlite setup (default Rails DB backend):
-echo "Installing sqlite..."
+echo -e "---- Installing sqlite...\n"
 sudo apt-get install libsqlite3-dev
 sudo gem install sqlite3-ruby
-echo "Installed sqlite3."
+echo -e "\n---- Installed sqlite3.\n"
 #------------------------------------------------------------------------------
 
 echo "Setup complete! You should now be able to use 'rails APPNAME'."
