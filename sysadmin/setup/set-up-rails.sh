@@ -48,7 +48,7 @@ fi
 
 # Ruby and friends
 echo -e "\n---- Installing Ruby and friends...\n"
-sudo apt-get install ruby rdoc irb build-essential &&
+sudo apt-get install ruby ruby-dev rdoc irb build-essential &&
 echo "Installed ruby (`ruby --version`), rdoc (`rdoc --version`), irb (`irb --version`), build-essential."
 
 # Rubygems
