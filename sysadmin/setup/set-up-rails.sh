@@ -1,8 +1,8 @@
 #!/bin/bash
 #===============================================================================
-#          FILE:  setup-rails.sh
+#          FILE:  set-up-rails.sh
 # 
-#         USAGE:  ./setup-rails.sh 
+#         USAGE:  ./set-up-rails.sh 
 # 
 #   DESCRIPTION:  Attempts to setup Ruby on Rails and deps on Ubuntu.
 # 
