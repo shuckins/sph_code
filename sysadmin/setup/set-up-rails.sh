@@ -12,7 +12,7 @@
 echo -ne "\nThis script will attempt to set up Rails and necessary deps on an Ubuntu system. Continue? (y/n) "
 read -e CONT
 if [ "$CONT" == "y" ]; then
-    echo "Alright, let's go!"
+    echo -e "\nAlright, here we go!"
 else
     echo "Exiting."
     exit
@@ -34,7 +34,7 @@ fi
 DEB_OS=`egrep -i 'Ubuntu|Debian' /etc/issue`
 RH_OS=`egrep -i 'CentOS|Red Hat' /etc/issue`
 if [[ ${#DEB_OS} -gt 0 ]] ; then
-    echo "---- Suitable OS confirmed."
+    echo -e "\n---- Suitable OS confirmed."
 elif [[ ${#RH_OS} -gt 0 ]] ; then
     CUR_OS="redhat"
     echo "Not able to install on this OS."
