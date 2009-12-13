@@ -71,9 +71,10 @@ echo -e "\n---- Installed rails `rails --version`.\n"
 
 # To get sqlite setup (default Rails DB backend):
 echo -e "---- Installing sqlite...\n"
-sudo apt-get install libsqlite3-dev
+sudo apt-get install sqlite3 &&
+sudo apt-get install libsqlite3-dev &&
 sudo gem install sqlite3-ruby
-echo -e "\n---- Installed sqlite3.\n"
+echo -e "\n---- Installed sqlite.\n"
 #------------------------------------------------------------------------------
 
 echo "Setup complete! You should now be able to use 'rails APPNAME'."
