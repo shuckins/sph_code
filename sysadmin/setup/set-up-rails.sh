@@ -9,16 +9,17 @@
 #        AUTHOR:  Samuel Huckins, wormwood_3@yahoo.com
 #       CREATED:  12/13/2009 12:15:40 PM EST
 #===============================================================================
-echo -ne "\nThis script will attempt to set up Rails and necessary deps on an Ubuntu system. Continue? (y/n) "
+echo -ne "\nThis script will attempt to set up Rails and necessary deps on an Ubuntu system. You will need sudo rights. It may take a while. Do you want to continue? (y/n) "
 read -e CONT
 if [ "$CONT" == "y" ]; then
-    echo -e "\nAlright, here we go!"
+    echo -e "\nAlright, watch for prompts and enjoy the show!"
 else
     echo "Exiting."
     exit
 fi
 
 # OS check
+# TODO Get working on CentOS/RHEL
 # Make sure we have egrep
 EGREP_VER=`egrep --version | head -n 1`
 if [[ "${EGREP_VER:0:8}" != "GNU grep" ]] ; then
@@ -45,11 +46,11 @@ else
     exit
 fi
 
-
+#------------------------------------------------------------------------------
 # Ruby and friends
 echo -e "\n---- Installing Ruby and friends...\n"
-sudo apt-get install ruby ruby-dev rdoc irb build-essential &&
-echo "Installed ruby (`ruby --version`), rdoc (`rdoc --version`), irb (`irb --version`), build-essential."
+sudo apt-get install build-essential irb libopenssl-ruby rdoc ri ruby ruby-dev &&
+echo -e "\n---- Installed ruby (`ruby --version`), rdoc (`rdoc --version`), irb (`irb --version`), build-essential.\n"
 
 # Rubygems
 echo -e "\n---- Installing rubygems...\n"
@@ -62,20 +63,26 @@ cd rubygems-1.3.5/
 sudo ruby setup.rb
 # Without this 'gem' will either not work or will be something else:
 sudo ln -s /usr/bin/gem1.8 /usr/bin/gem
-echo -e "\n ---- Installed gem `gem --version`.\n"
+echo -e "\n---- Installed gem `gem --version`.\n"
 
-# Rails
-echo -e "\n---- Installing rails...\n"
-sudo gem install rails &&
-echo -e "\n---- Installed rails `rails --version`.\n"
-
-# To get sqlite setup (default Rails DB backend):
-echo -e "---- Installing sqlite...\n"
+# sqlite
+echo -e "---- Installing sqlite (default Rails DB backend)...\n"
 sudo apt-get install sqlite3 &&
 sudo apt-get install libsqlite3-dev &&
 sudo gem install sqlite3-ruby
 echo -e "\n---- Installed sqlite.\n"
-#------------------------------------------------------------------------------
 
+# Rails
+echo -e "\n---- Installing rails...\n"
+sudo gem install rails --include-dependencies &&
+echo -e "\n---- Installed rails `rails --version`.\n"
+
+#------------------------------------------------------------------------------
+# TODO Optional
+# Prompt for optional alt DB packages install: mongrel, mysql
+# Prompt for optional alt webserver install: lighttpd
+#------------------------------------------------------------------------------
 echo "Setup complete! You should now be able to use 'rails APPNAME'."
+echo -e "         _\|/_\n         (o o)\n +----oOO-{_}-OOo-------+\n |     RoR rules!!!     |\n +----------------------+"
+echo -e "\nThis message has been brought to you by: boxes (http://boxes.thomasjensen.com/)"
 exit
