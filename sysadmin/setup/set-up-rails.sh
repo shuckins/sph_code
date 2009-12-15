@@ -80,7 +80,7 @@ echo -e "\n---- Installed rails `rails --version`.\n"
 #------------------------------------------------------------------------------
 # TODO Optional
 # Prompt for optional alt DB packages install: mongrel, mysql
-# Prompt for optional alt webserver install: lighttpd
+# Prompt for optional alt webserver install: lighttpd, nginx
 #------------------------------------------------------------------------------
 echo "Setup complete! You should now be able to use 'rails APPNAME'."
 echo -e "         _\|/_\n         (o o)\n +----oOO-{_}-OOo-------+\n |     RoR rules!!!     |\n +----------------------+"
