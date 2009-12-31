@@ -11,15 +11,15 @@
 #       CREATED:  12/31/2009 09:56:57 AM EST
 #===============================================================================
 # Downloads latest package lists
-echo "Starting package list update..."
+echo -e "\n --- Starting package list update..."
 sudo /usr/bin/aptitude update && 
 echo "Complete."
 # Downloads and installs all upgraded packages
-echo "Starting safe-upgrade..."
+echo -e "\n --- Starting safe-upgrade..."
 sudo /usr/bin/aptitude safe-upgrade && 
 echo "Complete."
 # Clears out download temp packages from /var/cache/apt
-echo "Clearing out cached packages..."
+echo -e "\n --- Clearing out cached packages..."
 sudo /usr/bin/aptitude autoclean &&
 
-echo "All update steps complete."
+echo -e "\n\nAll update steps complete."
