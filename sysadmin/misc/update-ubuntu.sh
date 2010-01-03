@@ -22,4 +22,10 @@ echo "Complete."
 echo -e "\n --- Clearing out cached packages..."
 sudo /usr/bin/aptitude autoclean &&
 
+# To update to the next distro version:
+# sudo apt-get install update-manager-core
+# sudo do-release-upgrade
+#
+# For more info see: http://www.ubuntu.com/getubuntu/upgrading
+
 echo -e "\n\nAll update steps complete."
