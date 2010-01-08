@@ -38,8 +38,9 @@ PASSWORD=""
 SOCKET="/var/run/mysqld/mysqld.sock"
     
 # Location where dumps are stored on DB server;
-# make sure this exists!
-LOCAL_BACKUP_DIR="/backup/mysql"
+# make sure this exists, as well as directories "dumps"
+# and "hotcopies" therein
+LOCAL_BACKUP_DIR="/backups/mysql"
 # Log of all steps
 LOG="/var/log/mysql-backup.log"
 
@@ -78,7 +79,7 @@ do
     fi
     # Text dump (schema, data):
     echo "`date '+%Y-%m-%d_%H-%M-%S'`- Starting text dump of $DB... " >> $LOG
-    /usr/bin/mysqldump --socket=$SOCKET --user=$USER $PASS_STRING --force --complete-insert --routines $DB > $LOCAL_BACKUP_DIR/dumps/$DB\_dump.sql &&
+    /usr/bin/mysqldump --socket=$SOCKET --user=$USER $PASS_STRING --force --complete-insert --routines $DB > $LOCAL_BACKUP_DIR/dumps/$DB-dump.sql &&
     echo "`date '+%Y-%m-%d_%H-%M-%S'`- Done!" >> $LOG
 
     # Binary dump:
@@ -99,6 +100,12 @@ echo "`date '+%Y-%m-%d_%H-%M-%S'`- rsyncing dumps to $RSYNC_SERV..." >> $LOG
 /usr/bin/rsync --verbose --recursive --itemize-changes $LOCAL_BACKUP_DIR $RSYNC_USER@$RSYNC_SERV:$REMOTE_BACKUP_DIR >> $LOG 2>&1 &&
 echo "`date '+%Y-%m-%d_%H-%M-%S'`- Done!" >> $LOG
 
+# ============== [ Remove temp files ] ==============
+echo "`date '+%Y-%m-%d_%H-%M-%S'`- Removing local dump files..." >> $LOG
+/bin/rm -rf $LOCAL_BACKUP_DIR/dumps/* &&
+/bin/rm -rf $LOCAL_BACKUP_DIR/hotcopies/* &&
+echo "`date '+%Y-%m-%d_%H-%M-%S'`- Done!" >> $LOG
+
 #------------------------------------------------------------------------------
-echo "`date '+%Y-%m-%d_%H-%M-%S'`- Backup complete." >> $LOG
+echo "`date '+%Y-%m-%d_%H-%M-%S'`- Backup operations complete." >> $LOG
 exit
