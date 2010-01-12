@@ -45,11 +45,11 @@ LOCAL_BACKUP_DIR="/backups/mysql"
 LOG="/var/log/mysql-backup.log"
 
 # Remote server that dumps are rsynced to
-RSYNC_SERV="MediaServer"
+RSYNC_SERV=""
 # Should be setup with SSH key access
-RSYNC_USER="sam"
+RSYNC_USER=""
 # Location where dumps are stored on remote server
-REMOTE_BACKUP_DIR="/tmp"
+REMOTE_BACKUP_DIR=""
 
 # ============== [ Setup ] ==============
 # Ensure that USER defined above is allowed:
@@ -77,6 +77,7 @@ do
     if [ "$DB" == "information_schema" ]; then
         continue
     fi
+
     # Text dump (schema, data):
     echo "`date '+%Y-%m-%d_%H-%M-%S'`- Starting text dump of $DB... " >> $LOG
     /usr/bin/mysqldump --socket=$SOCKET --user=$USER $PASS_STRING --force --complete-insert --routines $DB > $LOCAL_BACKUP_DIR/dumps/$DB-dump.sql &&
@@ -97,7 +98,7 @@ echo "`date '+%Y-%m-%d_%H-%M-%S'`- Dumps complete." >> $LOG
 
 # ============== [ rsync ] ==============
 echo "`date '+%Y-%m-%d_%H-%M-%S'`- rsyncing dumps to $RSYNC_SERV..." >> $LOG
-/usr/bin/rsync --verbose --recursive --itemize-changes $LOCAL_BACKUP_DIR $RSYNC_USER@$RSYNC_SERV:$REMOTE_BACKUP_DIR >> $LOG 2>&1 &&
+/usr/bin/rsync --archive --recursive --compress -e ssh $LOCAL_BACKUP_DIR $RSYNC_USER@$RSYNC_SERV:$REMOTE_BACKUP_DIR >> $LOG 2>&1 &&
 echo "`date '+%Y-%m-%d_%H-%M-%S'`- Done!" >> $LOG
 
 # ============== [ Remove temp files ] ==============
