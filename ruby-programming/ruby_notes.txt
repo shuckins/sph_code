@@ -28,3 +28,7 @@ unescaped = CGI::unescapeHTML(HTML_OR_XML)
 
 == CSV ==
  * For writing to and reading from CSV files: http://fastercsv.rubyforge.org/classes/FasterCSV.html
+
+== Visualization ==
+RailRoad (http://railroad.rubyforge.org/) is a class diagrams generator for Ruby on Rails applications. 
+Note from Trevor on this: FYI: if you decide to use this to dump info about controllers, make sure that you go in and change the line where it's trying to require "app/controllers/application.rb" -- that file isn't called that anymore. It's "application_controller.rb" now instead.
