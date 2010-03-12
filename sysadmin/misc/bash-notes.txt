@@ -1,0 +1,4 @@
+== Getting user input ==
+Post with multiple possibilities explained: http://www.terminally-incoherent.com/blog/2006/08/21/bash-getting-input-from-the-user/
+ * dialog (ncurses), Xdialog, or zenity for graphical popups
+ * text-based, use read:  read -p "What is your username? " -e input
