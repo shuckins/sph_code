@@ -11,10 +11,11 @@
 
 class Maintenance
 
-  @mysql_user = "root"
-  @mysql_pass = ""
-
-  @fragmented_tables = []
+  def initialize
+    @mysql_user = "root"
+    @mysql_pass = ""
+    @fragmented_tables = []
+  end
   
   def setup
     print "MySQL username: " 
@@ -36,10 +37,13 @@ class Maintenance
             WHERE TABLE_SCHEMA NOT IN ('information_schema','mysql') 
             AND Data_free > 0;"
 
-    fragmented_tables = %x{mysql -u #{@mysql_user} #{@mysql_pass} -e "#{mysql_query}" | grep -v '^+' | sed 's,\t,.,'}
-    if fragmented_tables
-        @fragmented_tables = fragmented_tables.split
-        @fragmented_tables.delete(@fragmented_tables[0])
+    # Fragmented tables:
+    ft = %x{mysql -u #{@mysql_user} #{@mysql_pass} -e "#{mysql_query}" | grep -v '^+' | sed 's,\t,.,'}
+    if ft
+        ft = ft.split
+        ft.delete(ft[0])
+        # Associate pairs of DB and table names
+        ft.map { |dbtb| @fragmented_tables << [dbtb.split(".")[0], dbtb.split(".")[1]] }
     end
 
     return @fragmented_tables
@@ -49,10 +53,11 @@ class Maintenance
 
   def defrag
     @fragmented_tables.each do |ft|
-      db = ft.split(".")[0]
-      tab = ft.split(".")[1]
-      # mysql -e "USE $database;\
-      # OPTIMIZE TABLE $table;" > /dev/null 2>&1
+      db = ft[0]
+      tab = ft[1]
+      puts "Optimizing #{tab} in #{db}..."
+      query = "OPTIMIZE TABLE #{tab};" 
+      cmd = %x{mysql -u #{@mysql_user} #{@mysql_pass} -D #{db} -e "#{query}"}
     end
   end
 
@@ -67,8 +72,9 @@ puts "\nGathering table information...\n\n"
 fragmented_tables = m.scan
 
 if fragmented_tables
-    puts "Fragmented tables found (Database.Table): \n"
-    fragmented_tables.each {|dbtb| puts dbtb}
+    puts "Fragmented tables found (Database | Table): \n"
+    fragmented_tables.each {|db, tb| puts "#{db} | #{tb}"}
+    # TODO Show total fragmentation, per table?
 else 
     puts "\nNo fragmented tables!\n"
     exit
@@ -76,12 +82,13 @@ end
 
 print "\nDo you want to proceed with optimization for fragmented tables (y/n)? "
 if gets.chomp! == "y"
+  puts
   m.defrag
 else
   puts "Ok then, exiting."
   exit
 end
 
-# Show fragmented tables and total fragmentation. 
+# TODO Confirm tables are defragmented
 
-puts "All done. Exiting"
+puts "\n\nAll done. Exiting."
