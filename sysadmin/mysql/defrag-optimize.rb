@@ -15,6 +15,7 @@ class Maintenance
     @mysql_user = "root"
     @mysql_pass = ""
     @fragmented_tables = []
+    @defragment_manually = []
   end
   
   def setup
@@ -32,18 +33,28 @@ class Maintenance
 
   def scan
     # Get a list of all fragmented tables; ignores special system DBs
-    mysql_query = "SELECT TABLE_SCHEMA, TABLE_NAME 
+    mysql_query = "SELECT TABLE_SCHEMA, TABLE_NAME, ENGINE
             FROM information_schema.TABLES 
             WHERE TABLE_SCHEMA NOT IN ('information_schema','mysql') 
             AND Data_free > 0;"
 
     # Fragmented tables:
-    ft = %x{mysql -u #{@mysql_user} #{@mysql_pass} -e "#{mysql_query}" | grep -v '^+' | sed 's,\t,.,'}
+    ft = %x{mysql -u #{@mysql_user} #{@mysql_pass} -e "#{mysql_query}" | grep -v '^+' | sed 's,\t,.,g'}
     if ft
         ft = ft.split
         ft.delete(ft[0])
         # Associate pairs of DB and table names
-        ft.map { |dbtb| @fragmented_tables << [dbtb.split(".")[0], dbtb.split(".")[1]] }
+        ft.map { |dbtb|    if dbtb.split(".")[2] != "MyISAM" 
+                             @defragment_manually << [dbtb.split(".")[0], dbtb.split(".")[1], dbtb.split(".")[2]]
+                           else
+                             @fragmented_tables << [dbtb.split(".")[0], dbtb.split(".")[1]]
+                           end
+               }
+    end
+
+    if @defragment_manually
+      puts "The following tables cannot be automatically defragmented (DB | TABLE | ENGINE):"
+      @defragment_manually.each {|db, tab, eng| puts "#{db} | #{tab} | #{eng}"}
     end
 
     return @fragmented_tables
@@ -71,8 +82,8 @@ m.setup
 puts "\nGathering table information...\n\n"
 fragmented_tables = m.scan
 
-if fragmented_tables
-    puts "Fragmented tables found (Database | Table): \n"
+if fragmented_tables.length > 0
+    puts "\nFragmented tables found (Database | Table): \n"
     fragmented_tables.each {|db, tb| puts "#{db} | #{tb}"}
     # TODO Show total fragmentation, per table?
 else 
