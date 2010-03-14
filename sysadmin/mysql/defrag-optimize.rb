@@ -43,11 +43,11 @@ class Maintenance
     if ft
         ft = ft.split
         ft.delete(ft[0])
-        # Associate pairs of DB and table names
-        ft.map { |dbtb|    if dbtb.split(".")[2] != "MyISAM" 
-                             @defragment_manually << [dbtb.split(".")[0], dbtb.split(".")[1], dbtb.split(".")[2]]
-                           else
+        # Associate pairs of DB and table names; store incompatible table types separately
+        ft.map { |dbtb|    if ["MyISAM", "ARCHIVE"].include? dbtb.split(".")[2]
                              @fragmented_tables << [dbtb.split(".")[0], dbtb.split(".")[1]]
+                           else
+                             @defragment_manually << [dbtb.split(".")[0], dbtb.split(".")[1], dbtb.split(".")[2]]
                            end
                }
     end
