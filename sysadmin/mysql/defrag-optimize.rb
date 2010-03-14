@@ -44,15 +44,15 @@ class Maintenance
         ft = ft.split
         ft.delete(ft[0])
         # Associate pairs of DB and table names; store incompatible table types separately
-        ft.map { |dbtb|    if ["MyISAM", "ARCHIVE"].include? dbtb.split(".")[2]
-                             @fragmented_tables << [dbtb.split(".")[0], dbtb.split(".")[1]]
+        ft.map { |dbtb|    if ["MyISAM", "ARCHIVE", "InnoDB"].include? dbtb.split(".")[2]
+                             @fragmented_tables << [dbtb.split(".")[0], dbtb.split(".")[1], dbtb.split(".")[2]]
                            else
                              @defragment_manually << [dbtb.split(".")[0], dbtb.split(".")[1], dbtb.split(".")[2]]
                            end
                }
     end
 
-    if @defragment_manually
+    if @defragment_manually.length > 0
       puts "The following tables cannot be automatically defragmented (DB | TABLE | ENGINE):"
       @defragment_manually.each {|db, tab, eng| puts "#{db} | #{tab} | #{eng}"}
     end
@@ -66,8 +66,17 @@ class Maintenance
     @fragmented_tables.each do |ft|
       db = ft[0]
       tab = ft[1]
+      eng = ft[2]
       puts "Optimizing #{tab} in #{db}..."
-      query = "OPTIMIZE TABLE #{tab};" 
+
+      if eng == "InnoDB"
+        query = "ALTER TABLE #{tab} ENGINE=INNODB;"
+      else
+        query = "OPTIMIZE TABLE #{tab};" 
+      end
+
+      query = query + " FLUSH TABLE #{tab};"
+
       cmd = %x{mysql -u #{@mysql_user} #{@mysql_pass} -D #{db} -e "#{query}"}
     end
   end
@@ -87,7 +96,7 @@ if fragmented_tables.length > 0
     fragmented_tables.each {|db, tb| puts "#{db} | #{tb}"}
     # TODO Show total fragmentation, per table?
 else 
-    puts "\nNo fragmented tables!\n"
+    puts "\nNo fragmented tables found that can be automatically defragmented.\n"
     exit
 end
 
