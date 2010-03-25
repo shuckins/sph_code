@@ -40,3 +40,10 @@ Faker::Company.catch_phrase
 => "Multi-layered multi-tasking task-force"
 Faker::Company.name
 => "Mitchell, Stamm and Muller"
+
+= Chef and delayed_job =
+Chef in EngineYard: https://cloud-support.engineyard.com/faqs/chef/use-chef-to-customize-your-environment
+delayed_job awesomeness: http://adamfortuna.com/2009/08/17/the-amazingness-of-delayed_job-for-rails/
+more: http://www.magnionlabs.com/2009/2/28/background-job-processing-in-rails-with-delayed_job
+delayed_job and monit: https://cloud-support.engineyard.com/discussions/questions/230-running-delayed_job-workers-solved
+delayed_job recipe: http://gist.github.com/189423
