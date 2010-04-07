@@ -10,12 +10,14 @@
 # Started:     2008-09-25
 # Copyright:   (c) 2008 Samuel Huckins
 #-----------------------------------------------------------------------------
-# Where SVN command is:
 SVNLOC="/usr/bin/svn"
-# Where the SVN server is:
 SVNSERVER="svn+ssh://samuelhuckins.com/var/lib/svn"
+
+GITLOC="/usr/bin/git"
+GITURL="git@github.com:shuckins/sph_code.git"
+
 # Code checkout command:
-SVNCODECHECKOUT="$SVNLOC co $SVNSERVER/code code_homerepo"
+GITCODECHECKOUT="$GITLOC clone $GITURL"
 # Config checkout command:
 SVNCONFIGCHECKOUT="$SVNLOC co $SVNSERVER/configuration conf_homerepo"
 # Check for user
@@ -88,7 +90,7 @@ sleep 1
 echo " * Checking out SVN (code)..."
 mkdir /home/$USER/code
 cd /home/$USER/code
-$SVNCODECHECKOUT &&
+$GITCODECHECKOUT &&
 echo "Code checkout complete."
 # Checkout SVN config
 echo " * Checking out SVN (config)..."
