@@ -12,6 +12,11 @@ if foo: puts "yep"
 end
 "yep"
 
+= Files and Dirs =
+Shows all dirs and files in current dir recursively, printing whether they are a directory or not:
+
+Find.find('.') do |f| p f + ", is dir? " + (FileTest.directory?(f) ? "yes" : "no")  end
+
 
 = XML and HTML =
  * For building: Builder (RubyGem; http://builder.rubyforge.org/)
