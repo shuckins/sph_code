@@ -26,6 +26,17 @@ Find.find('.') do |f| p f + ", is dir? " + (FileTest.directory?(f) ? "yes" : "no
 require 'cgi'
 unescaped = CGI::unescapeHTML(HTML_OR_XML)
 
+= JSON =
+JSON equivalent of Builder:
+    # Makes it so you can use Builder templates to generate valid JSON.
+    def render(opts = {}, &block)
+        if opts[:to_json] then
+            render :json => Hash.from_xml(render_to_string(:template => opts[:to_json], :layout => false)).to_json, :layout => false
+        else
+            super opts, &block
+        end
+    end
+
 = Dates and times =
  * Datestamp: Date.today.to_s
  * Datetime stamp: Time.now.strftime("%Y%m%d_%H%M%S")
