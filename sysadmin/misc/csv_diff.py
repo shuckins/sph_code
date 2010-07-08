@@ -41,12 +41,11 @@ def check_output_file(option, opt, value, parse):
         if cont == "n":
             sys.exit(0)
         elif cont == "y":
-            return value
+            parse.values.outputfile = value
         else:
             print "Response not recognized, exiting."
             sys.exit(0)
-    parse.values.outputfile = value
-
+ 
 def check_slice_type(option, opt, value, parse):
     """Verifies slice type is among those accepted."""
     allowed = ["diff", "symdiff", "intersection", "union", "file1comp", "file2comp"]
@@ -157,12 +156,10 @@ def output(slice, outputfile=None):
         logger.info("%s results. Writing..." % len(slice))
         output = csv.writer(open(outputfile, "w"))
         for rec in slice:
-            import pdb; pdb.set_trace()
             output.writerows([rec])
         logger.info("Results written to %s" % outputfile)
     else:
         logger.info("%s results:" % len(slice))
-        print slice
 
 #-----------------------------------------------------------------------------
 def main():
