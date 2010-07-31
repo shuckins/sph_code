@@ -1,0 +1,39 @@
+<html>
+<head>
+  <title>A test</title>
+
+	<!-- Load in jQuery for handy hover function -->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+
+  <script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {  
+        // All links in main menu div
+        var menu_links = $('div[id=main-menu] a');
+        // On mouse hover
+        menu_links.hover(
+            // In: Store and remove title
+            function() {  
+                old_title = $(this).attr('title');      
+                $(this).attr('title',''); 
+            },
+            // Out: Replace title
+            function() {  
+                $(this).attr('title', old_title);  
+            }  
+        );  
+    });  
+  </script>
+
+</head>
+<body>
+<div id="main-menu">
+  <ul>
+  <li><a title="Titles are great for SEO and accessibility but don&#8217;t need to be seen by users normally!" href="zenoss.com">MenuItem1</a></li>
+  <li><a title="Titles are great for SEO and accessibility but don&#8217;t need to be seen by users normally!" href="zenoss.com">MenuItem2</a></li>
+  <li><a title="Titles are great for SEO and accessibility but don&#8217;t need to be seen by users normally!" href="zenoss.com">MenuItem3</a></li>
+  </ul>
+</div>
+
+<p>I am text! Hurray! <a title="bodylink1" target="_blank" href="zenoss.com">I am a normal link.</a></p>
+</body>
+</html>

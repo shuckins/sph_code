@@ -1,0 +1,30 @@
+To figure out:
+ * Once dependencies emerge for a Rails app (like the mysql gem), where are these described and handled for installation elsewhere?
+ * How to use different JS libraries
+ * It seems that a rake task can't be called more than once from another task:
+
+  task :test_a_thing do
+    cnt = 0
+    until cnt == 3
+      puts "doing it"
+      Rake::Task['ts:version'].invoke
+      puts "done"
+      cnt += 1
+    end
+  end
+
+And running this results in:
+
+rake ts:test_a_thing
+(in /home/shuckins/code/HTT)
+doing it
+Thinking Sphinx v1.3.14
+done
+doing it
+done
+doing it
+done
+
+
+To create/setup:
+ * Script to setup needed structure for adding Rails app to git repo

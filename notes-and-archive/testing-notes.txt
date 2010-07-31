@@ -1,0 +1,8 @@
+On varieties of software testing
+Author: Samuel Huckins
+Email: wormwood_3@yahoo.com
+Date started: 2009-12-11 20:53:24 EST
+
+Unit tests should be thought of at a level of abstraction equal to that of the <em>processes</em> within your application. By this I mean the processing flows, considered in terms of design. It might make most sense to speak about a file being read, the contents being loaded as an object that allows iteration. While opening a file might involve various utility functions, these need not be tested. Unit testing assumes the encapsulation required for your business logic to exist.
+
+Behavioral tests, or specs, are at a higher level still. Their objects of concern are users performing common actions in UIs and other such "story-like" descriptions.

@@ -1,0 +1,14 @@
+Using MySQL DB:
+ 
+#------------------------------------------------------------------------------
+Best web server to use:
+ * Apache/Passenger is the standard. 
+   * Unicorn can speed up serving using native OS thread management?
+#------------------------------------------------------------------------------
+
+Alternating table row colors (http://snippets.dzone.com/posts/show/924):
+
+<tr class="<%= cycle("even", "odd") %>">
+<!-- CSS definitions should include even and odd classes for display styling -->
+... use item ...
+</tr>
