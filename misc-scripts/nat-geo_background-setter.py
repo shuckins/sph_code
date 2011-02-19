@@ -23,8 +23,6 @@ picture_dir = os.path.expanduser("~/Pictures/NatGeoPics")
 free_space_minimum = 25
 base_url = "http://photography.nationalgeographic.com/photography/photo-of-the-day"
 
-'gconftool-2 -t str --set /desktop/gnome/background/picture_filename file_loc'
-
 #------------------------------------------------------------------------------
 
 def free_space():
