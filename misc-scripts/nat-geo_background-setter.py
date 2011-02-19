@@ -112,8 +112,8 @@ if fs <= free_space_minimum:
     print "Not enough free space! (%s%% free)" % fs
     sys.exit(0)
 
-utd = get_wallpaper_details(base_url)
-url, title = utd[0], utd[1]
+ut = get_wallpaper_details(base_url)
+url, title = ut[0], ut[1]
 if not url:
     print "No wallpaper URL found."
     sys.exit(0)
