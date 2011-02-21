@@ -35,7 +35,7 @@ def free_space(dir):
         return False
     gb_total = float(float(fs.f_bsize * fs.f_blocks) / 1024 / 1024 / 1024)
     gb_free = float(float(fs.f_bsize * fs.f_bavail) / 1024 / 1024 / 1024)
-    percen_free = gb_total - gb_free / gb_free * 100
+    percen_free = (gb_total - gb_free) / gb_total * 100
     return int(round(percen_free))
 
 def get_wallpaper_details(base_url):
