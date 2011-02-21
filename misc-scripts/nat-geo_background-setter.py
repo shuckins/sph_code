@@ -25,11 +25,14 @@ base_url = "http://photography.nationalgeographic.com/photography/photo-of-the-d
 
 #------------------------------------------------------------------------------
 
-def free_space():
+def free_space(dir):
     """
     Returns percentage of free space.
     """
-    fs = os.statvfs("/")
+    try:
+        fs = os.statvfs(dir)
+    except OSError:
+        return False
     gb_total = float(float(fs.f_bsize * fs.f_blocks) / 1024 / 1024 / 1024)
     gb_free = float(float(fs.f_bsize * fs.f_bavail) / 1024 / 1024 / 1024)
     percen_free = gb_total - gb_free / gb_free * 100
@@ -107,9 +110,12 @@ def set_wallpaper(filename):
     print "BG set!"
 
 #------------------------------------------------------------------------------
-fs = free_space()
+fs = free_space(picture_dir)
+if not fs:
+    print "%s does not exist, please create." % picture_dir
+    sys.exit(0)
 if fs <= free_space_minimum:
-    print "Not enough free space! (%s%% free)" % fs
+    print "Not enough free space in %s! (%s%% free)" % (picture_dir, fs)
     sys.exit(0)
 
 ut = get_wallpaper_details(base_url)
