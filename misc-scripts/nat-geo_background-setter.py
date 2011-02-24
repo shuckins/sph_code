@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 File: nat-geo_background-setter.py
-Author: Samuel Huckins
+Authors: Samuel Huckins <wormwood_3@yahoo.com>, Jason Coombs <http://www.jaraco.com>
 Date: 2011-02-18 18:03:05 CST
 
 Description: A script to pull the latest National Geographic Picture of the
