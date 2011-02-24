@@ -37,6 +37,11 @@ print user_input
  time.strftime(time_fmt, time.gmtime(ts))
  '2009-01-19_19:02:29'
 #------------------------------------------------------------------------------
+ * Duration of process
+import time
+start = time.time()
+duration = time.time() - start
+#------------------------------------------------------------------------------
  * Last instance of passed weekday:
 import datetime
 import calendar
