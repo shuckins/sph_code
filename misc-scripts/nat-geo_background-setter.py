@@ -64,11 +64,12 @@ def get_wallpaper_details(base_url):
         sys.exit(0)
 
     # Find wallpaper image URL
+    urls = []
     for i in soup.findAll("div", {"class": "download_link"}):
-        urls = []
         for link in i.findAll("a"): 
             urls.append(link['href'])
-    if len(urls) != 1:
+    # No download link
+    if not urls:
         return False
     url = urls[0]
 
@@ -119,10 +120,10 @@ if fs <= free_space_minimum:
     sys.exit(0)
 
 ut = get_wallpaper_details(base_url)
-url, title = ut[0], ut[1]
-if not url:
+if not ut:
     print "No wallpaper URL found."
     sys.exit(0)
+url, title = ut[0], ut[1]
 
 # Verify pictures_dir exists
 if not os.path.isdir(picture_dir):
