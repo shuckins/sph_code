@@ -1,2 +1,6 @@
 = Oddity with table cell width inheritance in IE =
 Ran into a table with the rightmost cell having a set width. Two left ones did not. IE8 did not respect the width set, instead inherited (from what?) improperly. Setting "table-layout: fixed;" on the table is one fix, although that breaks any rows you don't want fixed of course. Setting an explicit width on the other cells in the same row also fixed it.
+
+= Good-looking styles =
+Notices/warnings:
+.notice {background-color: #FFFFAA; border-color:#EEEE99;}
