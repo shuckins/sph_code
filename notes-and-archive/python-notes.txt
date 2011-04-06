@@ -98,4 +98,24 @@ time.strftime("%Y-%m-%d_%H:%M:%S")
  * Find site-packages directory
 from distutils.sysconfig import get_python_lib
 print get_python_lib()
-
+#------------------------------------------------------------------------------
+ * Logging
+import logging
+# Setup logging
+logger = logging.getLogger(sys.argv[0])
+logger.setLevel(logging.DEBUG)
+# Use file output for production logging:
+logfilename = "/var/log/myapp/my_super_app.log"
+filelog = logging.FileHandler(logfilename, 'a')
+filelog.setLevel(logging.INFO)
+# Use console for development logging:
+conlog = logging.StreamHandler()
+conlog.setLevel(logging.DEBUG)
+# Specify log formatting:
+formatter = logging.Formatter("%(asctime)s - %(name)s - %(lineno)s - \
+%(levelname)s - %(message)s")
+conlog.setFormatter(formatter)
+filelog.setFormatter(formatter)
+# Add console log to logger
+logger.addHandler(conlog)
+logger.addHandler(filelog)
