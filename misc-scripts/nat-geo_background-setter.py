@@ -22,7 +22,7 @@ from BeautifulSoup import BeautifulSoup, Tag
 from HTMLParser import HTMLParser, HTMLParseError
 
 picture_dir = os.path.expanduser("~/Pictures/NatGeoPics")
-free_space_minimum = 25
+free_space_minimum = 10
 base_url = "http://photography.nationalgeographic.com/photography/photo-of-the-day"
 
 #------------------------------------------------------------------------------

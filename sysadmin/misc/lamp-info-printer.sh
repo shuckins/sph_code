@@ -59,5 +59,13 @@ then
 else
     echo -e "\e[37mNot present\e[0m"
 fi
+# Ruby:
+echo -e -n " * \e[31mR\e[1;33muby: \e[0m"
+if [ -e /usr/bin/ruby ]
+then 
+    echo "`ruby --version | cut -f 2 -d' '`"
+else
+    echo -e "\e[37mNot present\e[0m"
+fi
 # done
 echo ""
