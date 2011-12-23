@@ -59,6 +59,16 @@ then
 else
     echo -e "\e[37mNot present\e[0m"
 fi
+
+# PostgreSQL
+echo -e -n " * \e[31mP\e[1;33mostgreSQL: \e[0m"
+if [ -e /usr/bin/psql ]
+then 
+    echo "`psql --version | head -n 1 | cut -d" " -f 3`"
+else
+    echo -e "\e[37mNot present\e[0m"
+fi
+
 # Ruby:
 echo -e -n " * \e[31mR\e[1;33muby: \e[0m"
 if [ -e /usr/bin/ruby ]
